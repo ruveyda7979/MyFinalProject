@@ -1,5 +1,8 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Business.Abstract;
 using Business.Concrete;
+using Business.DependencyResolvers.Autofac;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Umbraco.Core.Composing.CompositionExtensions;
@@ -14,8 +17,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IProductService,ProductManager>();
-builder.Services.AddSingleton<IProductDal,EfProductDal>();
+//builder.Services.AddSingleton<IProductService,ProductManager>();
+//builder.Services.AddSingleton<IProductDal,EfProductDal>();
+
+builder.Host.UseServiceProviderFactory(services => new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBusinessModule()));
 
 var app = builder.Build();
 
@@ -31,5 +37,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 
 app.Run();
