@@ -34,7 +34,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         { 
-
+            product.CreatedDate = DateTime.Now;
             _productDal.Add(product);
 
             return new SuccessResult(Messages.ProductAdded);
@@ -62,7 +62,7 @@ namespace Business.Concrete
 
         public IDataResult<Product> GetById(int productId)
         {
-            return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));
+            return new SuccessDataResult<Product>(_productDal.Get(p => p.Id == productId));
         }
 
         public IDataResult< List<Product>> GetByUnitPrice(decimal min, decimal max)

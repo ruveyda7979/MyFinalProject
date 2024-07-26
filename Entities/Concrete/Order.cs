@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Entities.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-    public class Order: IEntitiy
+    public class Order : Audit ,IEntitiy
     {
-        public int OrderId { get; set; }
-        public string CustomerId { get; set; }
+        public int Id { get; set; }
+        public int CustomerId { get; set; }
         public int EmployeeId { get; set; }
         public DateTime OrderDate { get; set; }
-        public string ShipCity { get; set; }
+        public string ShipCity { get; set; } = null!;
+
+        public virtual Customer? Customer { get; set; }
     }
 }
